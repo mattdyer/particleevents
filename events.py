@@ -1,5 +1,6 @@
 import pyglet
 import random
+import time
 from pyglet import shapes
 import simulator
 from simulator.particle import Particle
@@ -17,11 +18,7 @@ circle = shapes.Circle(700, 150, 100, color=(50, 225, 30), batch=batch)
 
 particles = [Particle((50, 225, 30), (10, 100)).set_direction((1, 0)), Particle((70, 200, 40), (100, 10)).set_direction((0, 1))]
 
-start_event = {
-	'particle1': particles[0],
-	'particle2': particles[1],
-	'position': (100, 100)
-}
+start_event = Event(particles[0], particles[1], (100, 100))
 
 @window.event
 def on_key_press(symbol, modifiers):
@@ -37,7 +34,7 @@ def run_event(dt, event):
 	print(dt)
 	print(event)
 	
-	event_particles = [event['particle1'], event['particle2']]
+	event_particles = [event.get_particle_1(), event.get_particle_2()]
 	
 	color_totals = [
 		sum([particle.get_color()[0] for particle in event_particles]),
@@ -63,12 +60,12 @@ def run_event(dt, event):
 	print(new_color_1)
 	print(new_color_2)
 	
-	event_particles.append(Particle(tuple(new_color_1), event['position']))
+	event_particles.append(Particle(tuple(new_color_1), event.get_position()))
 	
 	particles.append(event_particles[2])
 	
 	if(sum(new_color_2) > 0):
-		event_particles.append(Particle(tuple(new_color_2), event['position']))
+		event_particles.append(Particle(tuple(new_color_2), event.get_position()))
 		particles.append(event_particles[3])
 	
 	#print(particles)
@@ -80,6 +77,7 @@ def run_event(dt, event):
 		for particle_index, particle in enumerate(particles):
 			if(not (event_particle == particle)):
 				print('something')
+				print(round(time.time() * 1000))
 			
 		
 		print(event_particle_index)
