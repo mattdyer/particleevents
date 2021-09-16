@@ -7,10 +7,9 @@ from simulator.particle import Particle
 from simulator.event import Event
 
 
-window_width = 960
-window_height = 540
+world_size = simulator.get_world_size()
 
-window = pyglet.window.Window(window_width, window_height)
+window = pyglet.window.Window(world_size[0], world_size[1])
 
 batch = pyglet.graphics.Batch()
 
@@ -87,7 +86,7 @@ def run_event(dt, event):
 #I need an array of particles, I just want to avoid looping over all of them during each frame.
 #So maybe I do need to still loop over all of them when an event happens to
 # calculate future events with the current particles I'm working with
-#if particles had a direction I may be able to quickle find intersecting paths and create future events
+#if particles had a direction I may be able to quickly find intersecting paths and create future events
 #does the particle need to store a location of its next event so we can igore it when finding other interactions
 	
 	
