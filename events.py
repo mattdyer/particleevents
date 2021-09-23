@@ -15,7 +15,7 @@ batch = pyglet.graphics.Batch()
 
 circle = shapes.Circle(700, 150, 100, color=(50, 225, 30), batch=batch)
 
-particles = [Particle((50, 225, 30), (10, 100)).set_direction((1, 0)), Particle((70, 200, 40), (100, 10)).set_direction((0, 1))]
+particles = [Particle((50, 225, 30), (10, 100)), Particle((70, 200, 40), (100, 10))]
 
 start_event = Event(particles[0], particles[1], (100, 100))
 
@@ -73,9 +73,20 @@ def run_event(dt, event):
 	
 	for event_particle_index, event_particle in enumerate(event_particles):
 		
+		event_particle.set_position(event.get_position())
+		event_particle.set_random_direction()
+		print('direction')
+		print(event_particle.get_direction())
+		
 		for particle_index, particle in enumerate(particles):
-			if(not (event_particle == particle)):
-				print('something')
+			
+			if(not (event_particle == particle) and event_particle.get_position() != particle.get_position()):
+				
+				if(event_particle.intersects(particle)):
+					print('event set')
+					# setup new event here
+				
+				
 				print(round(time.time() * 1000))
 			
 		

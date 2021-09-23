@@ -1,18 +1,17 @@
-from vectors import point, vector
+from sympy.geometry import Ray, intersection
+import random
 
 class Particle:
 	
 	def __init__(self, color, position):
 		self.color = color
 		self.position = position
-		self.direction = (0, 0)
+		self.direction = Ray(position, (position[0], position[1] + 1))
 		self.next_event_time = 0
 		
-		
-	def set_direction(self, direction):
-		self.direction = direction
-		
-		return self
+	
+	def set_position(self, position):
+		self.position = position
 	
 	def get_direction(self):
 		return self.direction
@@ -21,7 +20,7 @@ class Particle:
 		return self.position
 		
 	def set_random_direction(self):
-		self.direction = (random.uniform(0, 1), random.uniform(1, 1))
+		self.direction = Ray(self.position, (random.uniform(0, 1) + self.position[0], random.uniform(0, 1) + self.position[1]))
 	
 	def get_color(self):
 		return self.color
@@ -32,8 +31,22 @@ class Particle:
 	def set_next_event_time(self, next_event_time):
 		self.next_event_time = next_event_time
 	
+	def intersects(self, particle):
+		result = intersection(self.get_position(), particle.get_position())
+		
+		print('---')
+		print(result)
+		print('---')
+		
+		#if(result):
+			
+		
 	
-#sympy has rays and can calculate intersection etc.
+	
+	
+	
+# Check over the particles if our lines intersect, then we check the distance from current position.  
+# If they match then that is a new event
 	
 	
 	
